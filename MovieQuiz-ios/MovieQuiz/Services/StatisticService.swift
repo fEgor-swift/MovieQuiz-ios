@@ -1,17 +1,28 @@
 import Foundation
 
+
 final class StatisticService {
+    
+    
+    private enum Keys: String {
+                case correctAnswers
+                case totalQuestions
+                case gamesCount
+                case bestGameCorrect
+                case bestGameTotal
+                case bestGameDate
+    }
+    
     private let storage: UserDefaults = .standard
 
     // Свойство для хранения общего количества правильных ответов
     private var correctAnswers: Int {
+       
         get {
-         
-            return UserDefaults.standard.integer(forKey: "correctAnswers")
+            return storage.integer(forKey: Keys.correctAnswers.rawValue)
         }
         set {
-    
-            UserDefaults.standard.set(newValue, forKey: "correctAnswers")
+            storage.set(newValue, forKey: Keys.correctAnswers.rawValue)
         }
     }
     
@@ -19,11 +30,11 @@ final class StatisticService {
     private var totalQuestions: Int {
         get {
            
-            return UserDefaults.standard.integer(forKey: "totalQuestions")
+            return storage.integer(forKey: Keys.totalQuestions.rawValue)
         }
         set {
            
-            UserDefaults.standard.set(newValue, forKey: "totalQuestions")
+            storage.set(newValue, forKey: Keys.totalQuestions.rawValue)
         }
     }
     
@@ -44,11 +55,11 @@ extension StatisticService: StatisticServiceProtocol {
     var gamesCount: Int {
         get {
           
-            return UserDefaults.standard.integer(forKey: "gamesCountKey")
+            return storage.integer(forKey: Keys.gamesCount.rawValue)
         }
         set {
           
-            UserDefaults.standard.set(newValue, forKey: "gamesCountKey")
+            storage.set(newValue, forKey: Keys.gamesCount.rawValue)
         }
     }
     
@@ -56,9 +67,9 @@ extension StatisticService: StatisticServiceProtocol {
     var bestGame: GameResult {
         get {
             // Чтение лучшего результата из UserDefaults
-            let correct = UserDefaults.standard.integer(forKey: "bestGameCorrect")
-            let total = UserDefaults.standard.integer(forKey: "bestGameTotal")
-            let storedDate = UserDefaults.standard.object(forKey: "bestGameDate")
+            let correct = storage.integer(forKey: Keys.bestGameCorrect.rawValue)
+            let total = storage.integer(forKey: Keys.bestGameCorrect.rawValue)
+            let storedDate = storage.object(forKey: Keys.bestGameCorrect.rawValue)
             
             // Проверка даты из UserDefaults
             let date: Date
@@ -73,9 +84,9 @@ extension StatisticService: StatisticServiceProtocol {
         }
         set {
             // Сохранение нового лучшего результата в UserDefaults
-            UserDefaults.standard.set(newValue.correct, forKey: "bestGameCorrect")
-            UserDefaults.standard.set(newValue.total, forKey: "bestGameTotal")
-            UserDefaults.standard.set(newValue.date, forKey: "bestGameDate")
+            storage.set(newValue.correct, forKey: Keys.bestGameCorrect.rawValue)
+            storage.set(newValue.total, forKey: Keys.bestGameCorrect.rawValue)
+            storage.set(newValue.date, forKey: Keys.bestGameCorrect.rawValue)
         }
     }
     
