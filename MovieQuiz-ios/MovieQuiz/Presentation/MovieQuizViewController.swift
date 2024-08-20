@@ -20,8 +20,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         configureImageView()
         questionFactory = QuestionFactory(delegate: self)
         questionFactory?.requestNextQuestion()
+     
 //        configureFonts()
-        
+      
+
     }
     private func configureFonts() {
         textLabel.font = UIFont(name: "YS Display-Bold", size: 23)
