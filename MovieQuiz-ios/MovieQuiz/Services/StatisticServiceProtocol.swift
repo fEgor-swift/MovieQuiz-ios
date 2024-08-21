@@ -1,9 +1,4 @@
-//
-//  StatisticServiceProtocol.swift
-//  MovieQuiz
-//
-//  Created by Admin on 20.08.2024.
-//
+
 
 import Foundation
 
