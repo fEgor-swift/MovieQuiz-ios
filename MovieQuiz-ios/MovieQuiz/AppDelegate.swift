@@ -25,7 +25,3 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) {}
 }
-//сохранение текущей даты
-//let date = UserDefaults.standard.object(forKey: "bestGame.date") as? Date ?? Date()
-//первый метод
-//func dictionaryRepresentation() -> [String: Any] 

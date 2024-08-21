@@ -68,9 +68,8 @@ extension StatisticService: StatisticServiceProtocol {
         get {
             // Чтение лучшего результата из UserDefaults
             let correct = storage.integer(forKey: Keys.bestGameCorrect.rawValue)
-            let total = storage.integer(forKey: Keys.bestGameCorrect.rawValue)
-            let storedDate = storage.object(forKey: Keys.bestGameCorrect.rawValue)
-            
+            let total = storage.integer(forKey: Keys.bestGameTotal.rawValue)
+            let storedDate = storage.object(forKey: Keys.bestGameDate.rawValue)
             // Проверка даты из UserDefaults
             let date: Date
             if let unwrappedDate = storedDate as? Date {
@@ -85,8 +84,8 @@ extension StatisticService: StatisticServiceProtocol {
         set {
             // Сохранение нового лучшего результата в UserDefaults
             storage.set(newValue.correct, forKey: Keys.bestGameCorrect.rawValue)
-            storage.set(newValue.total, forKey: Keys.bestGameCorrect.rawValue)
-            storage.set(newValue.date, forKey: Keys.bestGameCorrect.rawValue)
+            storage.set(newValue.total, forKey: Keys.bestGameTotal.rawValue)
+            storage.set(newValue.date, forKey: Keys.bestGameDate.rawValue)
         }
     }
     

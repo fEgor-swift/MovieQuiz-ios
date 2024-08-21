@@ -1,13 +1,6 @@
 import UIKit
 
 
-
-//      20.08   1) Разобраться почему не сохраняется/оборажается рекорд
-//              2) Проверить отображение даты и ее форматирование
-//              3) Добавить надпись, если установлен новый рекорд
-
-
-
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     @IBOutlet private var imageView: UIImageView!
@@ -151,11 +144,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         return questionStep
     }
     
-    
+
     private func show(quiz result: QuizResultsViewModel) {
-        
         let bestGameResult = statisticService.bestGame
-        let accuracy = String(format: "%.2f", statisticService.totalAccuracy) //
+        let accuracy = String(format: "%.2f", statisticService.totalAccuracy)
         let gamesCount = statisticService.gamesCount
         
         // Рекорд
@@ -172,15 +164,23 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         let bestGameAccuracyString = String(format: "%.2f", bestGameAccuracy)
         
-       
-        let message = """
+        // Текущий результат
+        let currentGame = GameResult(correct: correctAnswers, total: questionsAmount, date: Date())
+        
+        // Формирование сообщения
+        var message = """
         Ваш результат: \(correctAnswers)/\(questionsAmount)
         Количество сыгранных квизов: \(gamesCount)
         Рекорд: \(bestGameResult.correct)/\(bestGameResult.total) (\(recordDateString))
         Средняя точность: \(accuracy)%
         """
         
-        // Алерта
+        // Проверка, был ли побит рекорд
+        if currentGame.isBetterThan(bestGameResult) {
+            message += "\nРекордная игра"
+        }
+        
+        // Алерт
         let alertController = UIAlertController(
             title: result.title,
             message: message,
@@ -190,11 +190,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let action = UIAlertAction(
             title: result.buttonText,
             style: .default) { [weak self] _ in
-                
                 guard let self = self else { return }
                 self.correctAnswers = 0
                 self.currentQuestionIndex = 0
-                
                 self.questionFactory?.requestNextQuestion()
             }
         
