@@ -144,7 +144,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         return questionStep
     }
     
-
+    
     private func show(quiz result: QuizResultsViewModel) {
         let bestGameResult = statisticService.bestGame
         let accuracy = String(format: "%.2f", statisticService.totalAccuracy)
@@ -200,4 +200,5 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         present(alertController, animated: true, completion: nil)
     }
+    
 }
