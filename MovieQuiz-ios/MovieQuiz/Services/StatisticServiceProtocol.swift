@@ -7,5 +7,5 @@ protocol StatisticServiceProtocol {
     var gamesCount: Int { get }
     var bestGame: GameResult { get }
 
-    func store(correct count: Int, total amount: Int)
-} 
+    func store(correct count: Int, total amount: Int) 
+}

@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="YS_Display-Bold.ttf">
+        <array key="YS Display-Bold.ttf">
             <string>YSDisplay-Bold</string>
         </array>
-        <array key="YS_Display-Medium.ttf">
+        <array key="YS Display-Medium.ttf">
             <string>YSDisplay-Medium</string>
         </array>
     </customFonts>
@@ -112,17 +112,24 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DkG-SM-wib">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="NQE-Vd-YDq" secondAttribute="trailing" constant="20" id="Ocx-Eu-Dno"/>
                             <constraint firstItem="NQE-Vd-YDq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="Qg2-Fk-zOC"/>
+                            <constraint firstItem="DkG-SM-wib" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TOr-OF-bSl"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="NQE-Vd-YDq" secondAttribute="bottom" id="nAA-9R-ZYE"/>
+                            <constraint firstItem="DkG-SM-wib" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="uuZ-Qf-a9K"/>
                             <constraint firstItem="NQE-Vd-YDq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xhY-0e-hUC"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="DkG-SM-wib" id="OCU-g1-ljO"/>
                         <outlet property="counterLabel" destination="kyu-T8-Jgp" id="zFm-mf-qF4"/>
                         <outlet property="imageView" destination="SZu-CX-2Ud" id="8xe-87-fzn"/>
                         <outlet property="noButton" destination="jzl-qP-n7w" id="X4z-2h-QK7"/>

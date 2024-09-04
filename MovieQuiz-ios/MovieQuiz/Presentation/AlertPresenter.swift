@@ -8,9 +8,12 @@ final class AlertPresenter {
     
     init(viewController: UIViewController) {
         self.viewController = viewController
+        
     }
     
     func showAlert(model: AlertModel) {
+        print("Создание оповещения: \(model.title) и сообщение: \(model.message)")  
+            
         let alert = UIAlertController(
             title: model.title,
             message: model.message,
@@ -18,7 +21,7 @@ final class AlertPresenter {
         
         let action = UIAlertAction(title: model.buttonText, style: .default) { _ in
             model.completion()
-    }
+        }
         alert.addAction(action)
         viewController?.present(alert, animated: true, completion: nil)
     }
