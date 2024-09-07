@@ -31,6 +31,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         showLoadingIndicator()
         questionFactory?.loadData()
+        view.accessibilityIdentifier = "mainView"
         
     }
     private func showLoadingIndicator() {
