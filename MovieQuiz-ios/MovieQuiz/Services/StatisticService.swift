@@ -57,12 +57,19 @@ final class StatisticService: StatisticServiceProtocol {
         correctAnswers += count
         totalQuestions += amount
         
+        print("Сохраняем игру: \(count) правильных ответов из \(amount)")
+
         let currentGame = GameResult(correct: count, total: amount, date: Date())
         
+        // Проверим, обновляется ли рекорд
         if currentGame.isBetterThan(bestGame) {
+            print("Новый рекорд: \(currentGame.correct)/\(currentGame.total) вместо старого рекорда \(bestGame.correct)/\(bestGame.total)")
             bestGame = currentGame
+        } else {
+            print("Рекорд не побит. Текущий рекорд: \(bestGame.correct)/\(bestGame.total)")
         }
         
         gamesCount += 1
+        print("Общее количество игр: \(gamesCount)")
     }
 }
