@@ -87,7 +87,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="noButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1fP-sZ-bIn"/>
+                                                    <action selector="noButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JVV-DH-9rZ"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NUq-SE-v54" userLabel="Кнопка Да">
@@ -105,7 +105,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="yesButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dss-DK-QMz"/>
+                                                    <action selector="yesButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bUR-UX-7v4"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -136,9 +136,9 @@
                         <outlet property="activityIndicator" destination="DkG-SM-wib" id="OCU-g1-ljO"/>
                         <outlet property="counterLabel" destination="kyu-T8-Jgp" id="zFm-mf-qF4"/>
                         <outlet property="imageView" destination="SZu-CX-2Ud" id="8xe-87-fzn"/>
-                        <outlet property="noButton" destination="jzl-qP-n7w" id="X4z-2h-QK7"/>
+                        <outlet property="noButton" destination="jzl-qP-n7w" id="a9B-uZ-0eh"/>
                         <outlet property="textLabel" destination="z1z-OM-Rl4" id="ZFc-9j-BVP"/>
-                        <outlet property="yesButton" destination="NUq-SE-v54" id="7dd-DJ-iL9"/>
+                        <outlet property="yesButton" destination="NUq-SE-v54" id="uGT-HK-P3d"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
