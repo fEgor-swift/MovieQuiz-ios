@@ -14,7 +14,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private let presenter = MovieQuizPresenter()
     //  private var currentQuestionIndex = 0
-    private var correctAnswers = 0
+   // private var correctAnswers = 0
     private var alertPresenter: AlertPresenter?
     // private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
@@ -84,7 +84,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             
             if isCorrect {
                 imageView.layer.borderColor = UIColor.ypGreen.cgColor
-                correctAnswers += 1
+                presenter.correctAnswers += 1
             } else {
                 imageView.layer.borderColor = UIColor.ypRed.cgColor
             }
@@ -108,7 +108,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 
                 //self.currentQuestionIndex = 0
                 self.presenter.resetQuestionIndex()
-                self.correctAnswers = 0
+                self.presenter.correctAnswers = 0
                 
                 self.questionFactory?.requestNextQuestion()
             }
@@ -116,25 +116,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             alertPresenter?.showAlert(model: model)
         }
         
-        
-//    private func showNextQuestionOrResults() {
-//        imageView.layer.borderColor = UIColor.clear.cgColor
-//
-//        if currentQuestionIndex == questionsAmount - 1 {
-//            let text = "Вы ответили на \(correctAnswers) из \(questionsAmount), попробуйте еще раз!"
-//
-//            let resultModel = QuizResultsViewModel(
-//                title: "Этот раунд окончен!",
-//                text: text,
-//                buttonText: "Сыграть ещё раз"
-//            )
-//            
-//            show(quiz: resultModel)
-//        } else {
-//            currentQuestionIndex += 1
-//            questionFactory?.requestNextQuestion()
-//        }
-//    }
+
         
          func show(quiz result: QuizResultsViewModel) {
             // Получаем текущие данные
@@ -143,7 +125,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             let gamesCount = statisticService.gamesCount
             
             // Текущий результат
-            let currentGame = GameResult(correct: correctAnswers, total: presenter.questionsAmount, date: Date())
+             let currentGame = GameResult(correct: presenter.correctAnswers, total: presenter.questionsAmount, date: Date())
             
             // Рекорд
             let recordDateString: String
@@ -155,7 +137,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             
             // Формирование сообщения
             var message = """
-        Ваш результат: \(correctAnswers)/\(presenter.questionsAmount)
+        Ваш результат: \(presenter.correctAnswers)/\(presenter.questionsAmount)
         Количество сыгранных квизов: \(gamesCount)
         Рекорд: \(bestGameResult.correct)/\(bestGameResult.total) (\(recordDateString))
         Средняя точность: \(accuracy)%
@@ -173,7 +155,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 buttonText: result.buttonText,
                 completion: { [weak self] in
                     guard let self = self else { return }
-                    self.correctAnswers = 0
+                    self.presenter.correctAnswers = 0
                     //                self.currentQuestionIndex = 0
                     self.presenter.resetQuestionIndex()
                     self.questionFactory?.requestNextQuestion()

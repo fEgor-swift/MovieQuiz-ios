@@ -35,6 +35,10 @@ final class MovieQuizPresenter {
         viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     
+    func restartGame() {
+            correctAnswers = 0
+            currentQuestionIndex = 0
+        }
     
     func showAnswerResult(isCorrect: Bool) {
         // Реализация метода
