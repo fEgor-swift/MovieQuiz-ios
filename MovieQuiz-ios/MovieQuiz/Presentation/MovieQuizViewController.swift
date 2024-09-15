@@ -30,11 +30,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         questionFactory?.requestNextQuestion()
         statisticService = StatisticService()
         alertPresenter = AlertPresenter(viewController: self)
-        
         imageView.layer.cornerRadius = 20
-        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
-        statisticService = StatisticService()
-        
+        presenter.questionFactory = questionFactory
         showLoadingIndicator()
         questionFactory?.loadData()
         view.accessibilityIdentifier = "mainView"
@@ -94,7 +91,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 guard let self = self else { return }
-                self.showNextQuestionOrResults()
+                self.presenter.showNextQuestionOrResults()
             }
         }
         private func hideLoadingIndicator() {
@@ -120,36 +117,24 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
         
         
-        private func showNextQuestionOrResults() {
-            // Очистка рамки изображения
-            imageView.layer.borderColor = UIColor.clear.cgColor
-            
-            // Проверяем, является ли текущий вопрос последним
-            if presenter.isLastQuestion() {
-                
-                let correctAnswers = self.correctAnswers
-                let totalQuestions = presenter.questionsAmount
-                
-                // Создаем сообщение с результатами
-                let text = "Вы ответили на \(correctAnswers) из \(totalQuestions), попробуйте еще раз!"
-                
-                let resultModel = QuizResultsViewModel(
-                    title: "Этот раунд окончен!",
-                    text: text,
-                    buttonText: "Сыграть еще раз"
-                )
-                
-                // Сохраняем статистику
-                statisticService.store(correct: correctAnswers, total: totalQuestions)
-                
-                // Показываем результат игры
-                show(quiz: resultModel)
-            } else {
-                // Переход к следующему вопросу
-                presenter.switchToNextQuestion()
-                questionFactory?.requestNextQuestion()
-            }
-        }
+//    private func showNextQuestionOrResults() {
+//        imageView.layer.borderColor = UIColor.clear.cgColor
+//
+//        if currentQuestionIndex == questionsAmount - 1 {
+//            let text = "Вы ответили на \(correctAnswers) из \(questionsAmount), попробуйте еще раз!"
+//
+//            let resultModel = QuizResultsViewModel(
+//                title: "Этот раунд окончен!",
+//                text: text,
+//                buttonText: "Сыграть ещё раз"
+//            )
+//            
+//            show(quiz: resultModel)
+//        } else {
+//            currentQuestionIndex += 1
+//            questionFactory?.requestNextQuestion()
+//        }
+//    }
         
          func show(quiz result: QuizResultsViewModel) {
             // Получаем текущие данные
