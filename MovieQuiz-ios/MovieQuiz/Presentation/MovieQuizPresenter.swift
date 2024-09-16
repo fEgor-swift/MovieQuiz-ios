@@ -39,6 +39,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         let viewModel = convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.viewController?.show(quiz: viewModel)
+            self?.viewController?.enableButtons()
         }
     }
     
@@ -59,19 +60,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         didAnswer(isYes: false)
     }
     
-//    func didAnswer(isYes: Bool) {
-//        guard let currentQuestion = currentQuestion else {
-//            return
-//        }
-//        
-//        let givenAnswer = isYes
-//        
-//        viewController?.showAnswerResultView(isCorrect: givenAnswer == currentQuestion.correctAnswer)
-//    }
+
     func didAnswer(isYes: Bool) {
         guard let currentQuestion = currentQuestion else {
             return
         }
+        
+        viewController?.disableButtons()
         
         let givenAnswer = isYes
         let isCorrect = givenAnswer == currentQuestion.correctAnswer
@@ -105,17 +100,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     func showNextQuestionOrResults() {
         if self.isLastQuestion() {
-            let text = "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
-            
-            let viewModel = QuizResultsViewModel(
-                title: "Этот раунд окончен!",
-                text: text,
-                buttonText: "Сыграть ещё раз")
-            viewController?.show(quiz: viewModel)
+            let resultsViewModel = makeResultsMessage()
+            viewController?.show(quiz: resultsViewModel)
         } else {
             self.switchToNextQuestion()
             questionFactory?.requestNextQuestion()
         }
+    
     }
     func showAnswerResult(isCorrect: Bool) {
         viewController?.showAnswerResultView(isCorrect: isCorrect)
@@ -128,6 +119,31 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             guard let self = self else { return }
             self.showNextQuestionOrResults()
         }
+    }
+    func makeResultsMessage() -> QuizResultsViewModel {
+        let bestGameResult = statisticService.bestGame
+        let accuracy = String(format: "%.2f", statisticService.totalAccuracy)
+        let gamesCount = statisticService.gamesCount
+        
+        let currentGame = GameResult(correct: correctAnswers, total: questionsAmount, date: Date())
+        let recordDateString = bestGameResult.total > 0 ? bestGameResult.date.dateTimeString : "Не установлен"
+        
+        var message = """
+        Ваш результат: \(correctAnswers)/\(questionsAmount)
+        Количество сыгранных квизов: \(gamesCount)
+        Рекорд: \(bestGameResult.correct)/\(bestGameResult.total) (\(recordDateString))
+        Средняя точность: \(accuracy)%
+        """
+        
+        if currentGame.isBetterThan(bestGameResult) {
+            message += "\n\nРекордная игра"
+        }
+        
+        return QuizResultsViewModel(
+            title: "Этот раунд окончен!",
+            text: message,
+            buttonText: "Сыграть ещё раз"
+        )
     }
 }
 

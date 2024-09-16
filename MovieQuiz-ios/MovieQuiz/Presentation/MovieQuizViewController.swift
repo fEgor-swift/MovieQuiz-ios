@@ -18,8 +18,8 @@ final class MovieQuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = MovieQuizPresenter(viewController: self) // Сначала инициализируем presenter
-        presenter.viewController = self // Затем настраиваем
+        presenter = MovieQuizPresenter(viewController: self)
+        presenter.viewController = self
         configureImageView()
         statisticService = StatisticService()
         alertPresenter = AlertPresenter(viewController: self)
@@ -28,13 +28,13 @@ final class MovieQuizViewController: UIViewController {
         view.accessibilityIdentifier = "mainView"
     }
     
-    func showLoadingIndicator() { //
+    func showLoadingIndicator() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
     }
     
     
-    private func configureImageView() {             //
+    private func configureImageView() {
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 20
     }
@@ -58,6 +58,15 @@ final class MovieQuizViewController: UIViewController {
         presenter.noButtonClicked()
     }
     
+    func disableButtons() {
+        yesButton.isEnabled = false
+        noButton.isEnabled = false
+    }
+
+    func enableButtons() {
+        yesButton.isEnabled = true
+        noButton.isEnabled = true
+    }
     
     func showAnswerResultView(isCorrect: Bool) {
         imageView.layer.masksToBounds = true
@@ -94,48 +103,16 @@ final class MovieQuizViewController: UIViewController {
     
     
     func show(quiz result: QuizResultsViewModel) {
-        // Получаем текущие данные
-        let bestGameResult = statisticService.bestGame
-        let accuracy = String(format: "%.2f", statisticService.totalAccuracy)
-        let gamesCount = statisticService.gamesCount
-        
-        // Текущий результат
-        let currentGame = GameResult(correct: presenter.correctAnswers, total: presenter.questionsAmount, date: Date())
-        
-        // Рекорд
-        let recordDateString: String
-        if bestGameResult.total > 0 {
-            recordDateString = bestGameResult.date.dateTimeString
-        } else {
-            recordDateString = "Не установлен"
-        }
-        
-        // Формирование сообщения
-        var message = """
-        Ваш результат: \(presenter.correctAnswers)/\(presenter.questionsAmount)
-        Количество сыгранных квизов: \(gamesCount)
-        Рекорд: \(bestGameResult.correct)/\(bestGameResult.total) (\(recordDateString))
-        Средняя точность: \(accuracy)%
-        """
-        
-        // Проверка, был ли побит рекорд
-        if currentGame.isBetterThan(bestGameResult) {
-            message += "\n\nРекордная игра"
-        }
-        
-        // Создаем модель для алерта
         let alertModel = AlertModel(
             title: result.title,
-            message: message,
+            message: result.text,
             buttonText: result.buttonText,
             completion: { [weak self] in
                 guard let self = self else { return }
-                self.presenter.correctAnswers = 0
                 self.presenter.restartGame()
             }
         )
         
-        // Используем AlertPresenter для отображения алерта
         alertPresenter?.showAlert(model: alertModel)
     }
     
