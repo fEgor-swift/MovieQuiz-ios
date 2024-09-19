@@ -1,7 +1,7 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
-    
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
+ 
     
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
@@ -41,7 +41,7 @@ final class MovieQuizViewController: UIViewController {
     
     
     
-    func show(quiz step: QuizStepViewModel) {          //
+    func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
@@ -50,42 +50,39 @@ final class MovieQuizViewController: UIViewController {
     }
     
     
-    @IBAction private func yesButtonClicked(_ sender: UIButton) {   //
+    @IBAction private func yesButtonClicked(_ sender: UIButton) {
         presenter.yesButtonClicked()
     }
     
-    @IBAction private func noButtonClicked(_ sender: UIButton) {        //
+    @IBAction private func noButtonClicked(_ sender: UIButton) {
         presenter.noButtonClicked()
     }
     
-    func disableButtons() {
-        yesButton.isEnabled = false
-        noButton.isEnabled = false
-    }
-
-    func enableButtons() {
-        yesButton.isEnabled = true
-        noButton.isEnabled = true
+    func blockButton(isEnabled: Bool) {
+        yesButton.isEnabled = isEnabled
+        noButton.isEnabled = isEnabled
     }
     
     func showAnswerResultView(isCorrect: Bool) {
+        setImageBorderColor(isCorrect: isCorrect)
+    }
+    
+    func setImageBorderColor(isCorrect: Bool) {
         imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
-        
-        if isCorrect {
-            imageView.layer.borderColor = UIColor.ypGreen.cgColor
-            presenter.correctAnswers += 1
-        } else {
-            imageView.layer.borderColor = UIColor.ypRed.cgColor
-        }
-        
-        
+        setBorderProperties(color: isCorrect ? UIColor(named: "YP Green")!.cgColor : UIColor(named: "YP Red")!.cgColor)
     }
-    func hideLoadingIndicator() {          //
+    
+    private func setBorderProperties(color: CGColor) {
+        imageView.layer.borderWidth = 8
+        imageView.layer.borderColor = color
+    }
+    
+    func hideLoadingIndicator() {          
         activityIndicator.isHidden = true
         activityIndicator.stopAnimating()
     }
-    func showNetworkError(message: String) {       //
+    func showNetworkError(message: String) {
         hideLoadingIndicator()
         
         let model = AlertModel(title: "Ошибка",

@@ -120,6 +120,17 @@
                </Test>
             </SelectedTests>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "84C0C9E92C9AB59F003D8EBA"
+               BuildableName = "MovieQuizViewControllerProtocol.xctest"
+               BlueprintName = "MovieQuizViewControllerProtocol"
+               ReferencedContainer = "container:MovieQuiz.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

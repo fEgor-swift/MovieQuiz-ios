@@ -7,19 +7,18 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     var correctAnswers: Int = 0
     var currentQuestion: QuizQuestion?
-    weak var viewController: MovieQuizViewController?
     var questionFactory: QuestionFactoryProtocol?
     let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
     private let statisticService: StatisticServiceProtocol!
+    weak var viewController: MovieQuizViewControllerProtocol?
+
     
-    
-    init(viewController: MovieQuizViewController) {
+    init(viewController: MovieQuizViewControllerProtocol) {
         self.viewController = viewController
         statisticService = StatisticService()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         questionFactory?.loadData()
-        viewController.showLoadingIndicator()
     }
     func didLoadDataFromServer() {
         viewController?.hideLoadingIndicator()
@@ -39,7 +38,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         let viewModel = convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.viewController?.show(quiz: viewModel)
-            self?.viewController?.enableButtons()
+            self?.viewController?.blockButton(isEnabled: true)
         }
     }
     
@@ -66,7 +65,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
             return
         }
         
-        viewController?.disableButtons()
+        viewController?.blockButton(isEnabled: false)
         
         let givenAnswer = isYes
         let isCorrect = givenAnswer == currentQuestion.correctAnswer
@@ -109,12 +108,10 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     }
     func showAnswerResult(isCorrect: Bool) {
-        viewController?.showAnswerResultView(isCorrect: isCorrect)
-
-        if isCorrect {
-            correctAnswers += 1
-        }
-
+        didAnswer(isYes: isCorrect)
+        viewController?.blockButton(isEnabled: false)
+        viewController?.setImageBorderColor(isCorrect: isCorrect)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
             self.showNextQuestionOrResults()

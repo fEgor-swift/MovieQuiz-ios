@@ -1,9 +1,4 @@
-//
-//  ArrayTests.swift
-//  ArrayTests
-//
-//  Created by Admin on 05.09.2024.
-//
+
 
 import XCTest // не забывайте импортировать фреймворк для тестирования
 @testable import MovieQuiz // импортируем наше приложение для тестирования
@@ -20,7 +15,7 @@ class ArrayTests: XCTestCase {
         XCTAssertNotNil(value)
         XCTAssertEqual(value, 2)
     }
-
+    
     
     func testGetValueOutOfRange() throws {
         // Given
